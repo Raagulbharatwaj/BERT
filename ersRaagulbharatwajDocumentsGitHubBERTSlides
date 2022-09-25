@@ -1,0 +1,350 @@
+[1mdiff --git a/BERT.pdf b/BERT.pdf[m
+[1mdeleted file mode 100644[m
+[1mindex aaef5d9..0000000[m
+[1m--- a/BERT.pdf[m
+[1m+++ /dev/null[m
+[36m@@ -1,549 +0,0 @@[m
+[31m-                              BERT[m
+[31m-[m
+[31m-Bidirectional Encoder Representations from Transformers[m
+[31m-[m
+[31m-                                     Dr M Janaki Meena[m
+[31m-                           BERT[m
+[31m-[m
+[31m-• In 2018, published by researchers at Google AI Language[m
+[31m-• caused a stir in the Machine Learning community by presenting state-of-[m
+[31m-[m
+[31m- the-art results in a wide variety of NLP tasks[m
+[31m-• broke several records for how well models can handle language-based[m
+[31m-[m
+[31m- tasks[m
+[31m-• Soon after the release of the paper describing the model, the team also[m
+[31m-[m
+[31m- open-sourced the code of the model, and made available for download[m
+[31m- versions of the model that were already pre-trained on massive datasets[m
+[31m-                           BERT[m
+[31m-[m
+[31m-• Momentous development since it enables anyone building a machine learning[m
+[31m-  model involving language processing to use this powerhouse as a readily-[m
+[31m-  available component – saving the time, energy, knowledge, and resources that[m
+[31m-  would have gone to training a language-processing model from scratch[m
+[31m-[m
+[31m-• Including Question Answering (SQuAD v1.1), Natural Language Inference (MNLI),[m
+[31m-  and others[m
+[31m-[m
+[31m-• Key technical innovation is applying the bidirectional training of Transformer, a[m
+[31m-  popular attention model, to language modelling[m
+[31m-                           BERT[m
+[31m-[m
+[31m-• Builds on top of a number of clever ideas that have been bubbling up in the NLP[m
+[31m-  community[m
+[31m-[m
+[31m-• Semi-supervised Sequence Learning[m
+[31m-• ELMo - AllenNLP[m
+[31m-• ULMFiT (by fast.ai founder)[m
+[31m-• OpenAI transformer (by OpenAI researchers), and[m
+[31m-• the Transformer (Vaswani et al)[m
+[31m-Applications of BERT - Sentence Classification[m
+[31m-      Applications of BERT - Sentence Classification[m
+[31m-[m
+[31m-• To train such a model, you mainly have to train the classifier, with[m
+[31m- minimal changes happening to the BERT model during the training[m
+[31m- phase.[m
+[31m-[m
+[31m-• This training process is called Fine-Tuning, and has roots in Semi-[m
+[31m- supervised Sequence Learning and ULMFiT.[m
+[31m-      Applications of BERT - Sentiment analysis[m
+[31m-[m
+[31m-• Input: Movie/Product review. Output: is the review positive or negative?[m
+[31m-• Example dataset: SST[m
+[31m-      Applications of BERT - Sentiment analysis[m
+[31m-[m
+[31m-• Fact-checking[m
+[31m-• Input: sentence[m
+[31m-• Output: “Claim” or “Not Claim”[m
+[31m-• More ambitious/futuristic example:[m
+[31m-• Input: Claim sentence. Output: “True” or “False”[m
+[31m-• Full Fact is an organization building automatic fact-checking tools for the[m
+[31m-[m
+[31m- benefit of the public. Part of their pipeline is a classifier that reads news[m
+[31m- articles and detects claims (classifies text as either “claim” or “not claim”)[m
+[31m-                Transformer Architecture[m
+[31m-[m
+[31m-• The first transformer model was developed for translating English to[m
+[31m- German[m
+[31m-[m
+[31m-• Basically it was a sequence to sequence model[m
+[31m-• Here we see a illustration of a transformer which will translate a french[m
+[31m-[m
+[31m- sentence to English[m
+[31m-                Transformer Architecture[m
+[31m-[m
+[31m-• Transformer has got encoder to encode the input sentence and a[m
+[31m- decoder decodes the encoded sentence to target sentence[m
+[31m-                Transformer Architecture[m
+[31m-[m
+[31m-• A set of six encoder and six decoders were stacked in the transformer[m
+[31m- model[m
+[31m-                Transformer Architecture[m
+[31m-[m
+[31m-• Each encoder layer consists of a self-attention and feed forward neural[m
+[31m- network layer[m
+[31m-                Transformer Architecture[m
+[31m-[m
+[31m-• Each decoder layer consists of a self-attention and feed forward neural[m
+[31m- network layer and a cross-attention layer also[m
+[31m-[m
+[31m-• Cross attention layer is added so that the input sentence may be[m
+[31m- referred during translation[m
+[31m-                Transformer Architecture[m
+[31m-[m
+[31m-• Resultant vector z is[m
+[31m- got by adding self-[m
+[31m- attention to the input[m
+[31m- embedding vector x[m
+[31m-[m
+[31m-• Feedforward layer of[m
+[31m- the encoder adds[m
+[31m- non-linearity to the z[m
+[31m- vector to give r vector[m
+[31m-               Transformer Architecture[m
+[31m-[m
+[31m-• Resultant vector r[m
+[31m- of one encoder[m
+[31m- layer is given as[m
+[31m- input to the next[m
+[31m- layer[m
+[31m-                          Attention[m
+[31m-[m
+[31m-• Attention treats each word's representation as a query to access and incorporate[m
+[31m-  information from a set of values[m
+[31m-[m
+[31m-• Self Attention - Attention within single sentence[m
+[31m-• Number of unparallelizable operations doesn't increase with sequence length as[m
+[31m-[m
+[31m-  it increases in LSTM[m
+[31m-• All words attend to all words in the previous layer - So layerwise we cannot[m
+[31m-[m
+[31m-  parallelize but we can parallelize in a layer[m
+[31m-• Maximum interaction distance: O(1), Since all words interact at every layer[m
+[31m-                      Self - Attention[m
+[31m-[m
+[31m-• Attention operates on queries, keys and values, for a sequence of length T[m
+[31m-• d - 64 (Some number chosen by authors)[m
+[31m-• We have some queries q1, q2, q3, ...., qT. Each query is qi Є Rd[m
+[31m-• We have some keys k1,k2, ..., kT. Each value is ki Є Rd[m
+[31m-• We have some values v1, v2, ..., vT. Each value is vi Є Rd[m
+[31m-• Number of queries can vary from number of keys and values in practice[m
+[31m-• In Self-Attention, the queries, keys and values are drawn from the same[m
+[31m-[m
+[31m-  source[m
+[31m-                      Self - Attention[m
+[31m-[m
+[31m-• For example, if the output of the previous layer is x1, ...., xT (one vec per[m
+[31m-  word) we could let vi = ki = qi = xi (use same vectors for all of them (i.e.)[m
+[31m-  embedding of the word)[m
+[31m-[m
+[31m-• The dot-product self-attention operation is as follows:[m
+[31m-• Compute key-query affinities - eij = qTikj - Scalar value not bounded by size[m
+[31m-• Compute attention weights from affinities (Apply Softmax)[m
+[31m-• αij = exp(eij) / Σj' exp(eij') - Given query sum over all keys for normalization[m
+[31m-• Compute output for query as weighted sum of values outputi = Σjαijvj[m
+[31m-                      Self - Attention[m
+[31m-[m
+[31m-• Query is going to interact with keys to produce values[m
+[31m-• Can view as query is looking for information in keys[m
+[31m-• We connect everything to everything how is different from fully connected[m
+[31m-[m
+[31m-  network:[m
+[31m-• In attention we have to learn interaction weights between query and key[m
+[31m-[m
+[31m-  vectors and it depends on the input[m
+[31m-• Input changes - weights are allowed to change as a function of input[m
+[31m-• Interaction weights are dynamic[m
+[31m-                      Self - Attention[m
+[31m-[m
+[31m-• Parameterization is different[m
+[31m-• Parameters are computed as dot product of vectors[m
+[31m-• We have stacked self-attention blocks, like we can stack LSTM layers[m
+[31m-Self - Attention[m
+[31m-       Self - Attention as a NLP building block[m
+[31m-[m
+[31m-• LSTM layers are removed[m
+[31m-• Self-attention is a function of keys, queries and values and can be stacked[m
+[31m-• After self-attention layer we get new set of queries, keys and values[m
+[31m-• Can self-attention can be a drop in replacement for recurrence?[m
+[31m-• No ....[m
+[31m-• First Self-attention is an operation on sets. It has no inherent notion of[m
+[31m-[m
+[31m-  order[m
+[31m-Self Attention - Transformer Architecture[m
+[31m-Self Attention - Transformer Architecture[m
+[31m-Self Attention - Transformer Architecture[m
+[31m-      Fixing the first self-attention problem: sequence[m
+[31m-                                order[m
+[31m-[m
+[31m-• Since self-attention doesn't build in order information, we need to encode[m
+[31m-  the order of the sentence in our keys, queries and values[m
+[31m-[m
+[31m-• Consider pi Є Rd, for i Є {1, 2, ..., T} are position vectors[m
+[31m-• To incorporate the position info just add it to our inputs[m
+[31m-• In the first layer, let v'i, k'i, q'i be our old keys, values and queries[m
+[31m-• vi = v'i + pi[m
+[31m-• qi = q'i + pi[m
+[31m-• ki = k'i + pi[m
+[31m-      Fixing the first self-attention problem: sequence[m
+[31m-                                order[m
+[31m-[m
+[31m-• In deep self-attention networks, we do this at the first layer[m
+[31m-[m
+[31m-• You could concatenate them as well but people mostly just add[m
+[31m-      Position representation vectors through sinusoids[m
+[31m-[m
+[31m-• Can happen through concatenation of sinusoids of varying periods - varying wave length[m
+[31m-[m
+[31m-• Pros[m
+[31m-• Perodicity indicates that maybe "absolute position" isn't important[m
+[31m-• Maybe can extrapolate to longer sequences as periods restart[m
+[31m-• Cons[m
+[31m-• Not learnable; also the extrapolation doesn't really work[m
+[31m-    Position representation vectors learned from scratch[m
+[31m-[m
+[31m-• Learned absolute position representation: Let all pi be learnable[m
+[31m-  parameters![m
+[31m-[m
+[31m-• Learn a matrix p Є RdxT, and let each pi be a column of that matrix[m
+[31m-• Pros[m
+[31m-• Flexibility - each position gets to be learned to fit the data[m
+[31m-• Cons[m
+[31m-• Definitely can't extraplorate to indices outside 1, ..., T[m
+[31m-• Most systems use this![m
+[31m-    Position representation vectors learned from scratch[m
+[31m-[m
+[31m-• Sometimes people try more flexible representations of position[m
+[31m-• Relative linear position attention[m
+[31m-• Dependency syntax-based position[m
+[31m-• Problem 1 of self-attention to replace LSTM is it doesn't have an inherent[m
+[31m-[m
+[31m-  order of notion - Solved by - adding position representation to the inputs[m
+[31m-• Problem 2 - No non-linearities for deep learning - It's all just weighted[m
+[31m-[m
+[31m-  averages[m
+[31m-Positional Encoding[m
+[31m-        Adding non-linearities in Self Attention[m
+[31m-[m
+[31m-• No elementwise non-linearities in self-attention stacking more self-attention[m
+[31m-  layers just re-averages value vectors[m
+[31m-[m
+[31m-• Easy fix is to add a feed-forward network to post-process each output[m
+[31m-  vector[m
+[31m-[m
+[31m-• Intution - Feed forward network processes the result of self-attention[m
+[31m-Adding non-linearities in Self Attention[m
+[31m-          Don't look Future during Prediction[m
+[31m-[m
+[31m-• Need to ensure that we don't look at the future when predicting a sequence[m
+[31m-• Like in machine translation or language modeling[m
+[31m-• In recurrent networks it is so natural, we don't unroll it further[m
+[31m-         Masking the Future in Self-Attention[m
+[31m-[m
+[31m-• Important on the decoder side[m
+[31m-• One idea - At every timestep change the set of keys and values to include[m
+[31m-[m
+[31m-  only past words (inefficient!)[m
+[31m-• To enable parallelization - We mask out attention to future words by setting[m
+[31m-[m
+[31m-  attention score to -∞[m
+[31m-• eij = qTikj, k<j[m
+[31m-• = -∞, k>=j[m
+[31m-Matrix of eij values[m
+[31m-Barriers and Solutions for Self-Attention as a Building[m
+[31m-                            Block[m
+[31m-[m
+[31m-Barriers                             Solutions[m
+[31m-[m
+[31m-Doesn't have an inherent notion of   Add position representations to the[m
+[31m-order                                inputs[m
+[31m-[m
+[31m-No non-linearities for deep learning Apply same feedforward network to[m
+[31m-magic! It's all just weighted averages each self-attention output[m
+[31m-[m
+[31m-Ensure we don't look at future when  Mask out the future by artifically[m
+[31m-predicting sequence - on decoder     setting attention weights to 0[m
+[31m-side during translation[m
+[31m-       Necessities for a Self-Attention Building Block[m
+[31m-[m
+[31m-• Self-Attention - Basis of methods[m
+[31m-• Position representations - Specify sequence order[m
+[31m-• Non-linearities - at output of self-attention[m
+[31m-• Masking - to parallelize operations while looking at the future[m
+[31m-               Key-query-value attention[m
+[31m-[m
+[31m-• How do we get the k, q and v vectors from a single word embedding[m
+[31m-• ki = Wk * xi, where Wk Є Rdxd is the key matrix[m
+[31m-• qi = Wq * xi, where Wq Є Rdxd is the query matrix[m
+[31m-• vi = Wv * xi, where Wv Є Rdxd is the value matrix[m
+[31m-• Where d - dimension of the hidden layer - Which was 512 for transformer model[m
+[31m-• Matrices Wk, Wq and Wv can be very different from each other[m
+[31m-• These matrices allow different aspects of the x vectors to be used/emphasized in[m
+[31m-[m
+[31m-  each of the three roles[m
+[31m-Matrix Calculation of Self-Attention[m
+[31m-               Key-query-value attention[m
+[31m-[m
+[31m-• k and q vectors helps to figure out where to look for different part of x[m
+[31m-• v vector - Some information is passed along and it helps to access the[m
+[31m-[m
+[31m- information[m
+[31m-       Key-query-value Attention Computation[m
+[31m-[m
+[31m-• Computed with big tensors[m
+[31m-• X = [x1; x2; ... xT] Є RTxd be the concatenation of input vectors[m
+[31m-• X*KЄ RTxd, X*Q Є RTxd, X*V Є RTxd[m
+[31m-• Output tesor is same dimension as X, RTxd[m
+[31m-• Output = (X*Q(X*K)T) * (X*V)[m
+[31m-• Affinity between key and input is calculated and then averaged[m
+[31m-       Key-query-value Attention Computation[m
+[31m-[m
+[31m-• Ta k e q u e r y - k e y d o t[m
+[31m- products in one matrix[m
+[31m- multiplication[m
+[31m-[m
+[31m-• XWQ(XWK)T[m
+[31m-• Softmax and compute[m
+[31m-[m
+[31m- the weighted average[m
+[31m- with another matrix[m
+[31m- multiplication[m
+[31m-Matrix Calculation of Self-Attention[m
+[31m-                   Multi-head Attention[m
+[31m-[m
+[31m-• Attend to multiple places in a single layer[m
+[31m-• We want to look at multiple places in the sentence at once[m
+[31m-• In single attention, we consider only the point where xTi, QTKxj is high[m
+[31m-• We encode different things via different query, key and value matrices[m
+[31m-• If we are to have h - attentions then we will h number of query, key and[m
+[31m-[m
+[31m-  value vectors for each word in the sequence with dimensionality as follows:[m
+[31m-• Ql, kl, vl Є Rd X d/h, l ranges from 1 to h[m
+[31m-           Multi-head Attention - Focus on many Positions[m
+[31m-[m
+[31m-• Smaller key, value and query matrices with lesser number of columns[m
+[31m- are made for each head[m
+[31m-[m
+[31m-• Same amount of computation as single-head self-attention[m
+[31m-Multi-head Attention - Focus on many Positions[m
+[31m-                   Multi-head Attention[m
+[31m-[m
+[31m-• Outputl = Softmax(XQl KTl XT) * XVl where outputl Є Rd/h[m
+[31m-• Ql, kl, vl Є Rd X d/h, l ranges from 1 to h[m
+[31m-• Each attention head performs attention independently[m
+[31m-• zl = softmax(XQlKTlXT) * XVl, where Outputl Є R d/h[m
+[31m-Multi-head Attention - Focus on many Positions[m
+[31m-                   Multi-head Attention[m
+[31m-[m
+[31m-• Then output of all heads are combined by concatenation[m
+[31m-• Z = Wo * [z1; ... ;zh] where Wo Є Rd X d[m
+[31m-• Wo is a learned weight matrix[m
+[31m-• Each head look at different things and construct value vectors[m
+[31m- differently[m
+[
